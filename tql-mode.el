@@ -59,7 +59,7 @@ TOKEN: SMIE token"
     (`(:elem . basic) 2)
     (`(:elem . args) 0)))
 
-(setq tql-mode-syntax-table
+(defvar tql-mode-syntax-table
       "Syntax table."
       (let ((table (make-syntax-table)))
         (modify-syntax-entry ?# "<" table)
