@@ -14,25 +14,19 @@
 
 (require 'smie)
 
-(setq tql-mode-highlights
-      '(("\\_<[A-Z][-a-zA-Z0-9/_]*" . font-lock-variable-name-face)
-        ("\\[\\\([-a-zA-Z0-9/_ ]+\\)\\]" . (1 font-lock-preprocessor-face))
-        ("\\(let\\|\\def\\)\s+\\([-a-zA-Z0-9/_]+\\)(" . (2 font-lock-type-face))
-        ("\\bdef\\b\\|\\ball\\b\\|\\bex\\b\\|<=>\\|=>\\|&&\\|||\\|\\blet\\b\\|\\bin\\b\\|=" . font-lock-keyword-face)
-        ("\\btrue\\b\\|\\bfalse\\b\\|\\blist\\b\\|\\bcount\\b" . font-lock-keyword-face)
-        ("\\([-a-zA-Z0-9/_]+\\)(" . (1 font-lock-function-name-face))))
+(defconst tql-mode-highlights
+  '(("\\_<[A-Z][-a-zA-Z0-9/_]*" . font-lock-variable-name-face)
+    ("\\[\\\([-a-zA-Z0-9/_ ]+\\)\\]" . (1 font-lock-preprocessor-face))
+    ("\\(let\\|\\def\\)\s+\\([-a-zA-Z0-9/_]+\\)(" . (2 font-lock-type-face))
+    ("\\bdef\\b\\|\\ball\\b\\|\\bex\\b\\|<=>\\|=>\\|&&\\|||\\|\\blet\\b\\|\\bin\\b\\|=" . font-lock-keyword-face)
+    ("\\btrue\\b\\|\\bfalse\\b\\|\\blist\\b\\|\\bcount\\b" . font-lock-keyword-face)
+    ("\\([-a-zA-Z0-9/_]+\\)(" . (1 font-lock-function-name-face))))
 
 (defvar tql-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-c") 'tql-run-current-query)
     map)
   "Keymap for `tql-mode'.")
-
-;;;###autoload
-(define-derived-mode tql-mode fundamental-mode
-  (setq font-lock-defaults '(tql-mode-highlights))
-  (setq mode-name "tql")
-  (tql-init))
 
 (defconst tql-grammar
   (smie-prec2->grammar
@@ -66,19 +60,20 @@ TOKEN: SMIE token"
     (`(:elem . args) 0)))
 
 (setq tql-mode-syntax-table
-  "Syntax table."
+      "Syntax table."
       (let ((table (make-syntax-table)))
         (modify-syntax-entry ?# "<" table)
         (modify-syntax-entry ?\n ">" table)
         table))
 
-(defun tql-init ()
-  "Initialize TQL major mode."
-  (set-syntax-table tql-mode-syntax-table)
+;;;###autoload
+(define-derived-mode tql-mode fundamental-mode "tql"
+  "Major mode for TQL files."
+  (setq font-lock-defaults '(tql-mode-highlights))
   (smie-setup tql-grammar 'tql-rules)
   (set (make-local-variable 'comment-start) "#")
-  (set (make-local-variable 'comment-end) "")
-  (use-local-map tql-mode-map))
+  (set (make-local-variable 'comment-end) ""))
+
 
 (provide 'tql-mode)
 
