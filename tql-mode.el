@@ -60,11 +60,11 @@ TOKEN: SMIE token"
     (`(:elem . args) 0)))
 
 (defvar tql-mode-syntax-table
-      "Syntax table."
-      (let ((table (make-syntax-table)))
-        (modify-syntax-entry ?# "<" table)
-        (modify-syntax-entry ?\n ">" table)
-        table))
+  (let ((table (make-syntax-table)))
+    (modify-syntax-entry ?# "<" table)
+    (modify-syntax-entry ?\n ">" table)
+    table)
+  "Syntax table.")
 
 ;;;###autoload
 (define-derived-mode tql-mode fundamental-mode "tql"
