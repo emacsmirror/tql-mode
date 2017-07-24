@@ -24,7 +24,6 @@
 
 (defvar tql-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-c") 'tql-run-current-query)
     map)
   "Keymap for `tql-mode'.")
 
